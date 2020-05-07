@@ -6,34 +6,42 @@ request(
   (error, response, html) => {
     if (!error && response.statusCode === 200) {
       const myData = [];
-
       const $ = cheerio.load(html);
 
-      const getUrls = async () => {
-        // console.log("URLS:");
-        const images = $("img");
-        const target = $(".bigger");
+      const table = $('center')
+      .filter((i, el) => {
+        return $(el).attr("width") === "600"
+      })
+      table.each((i, el) => {
+        console.log('1')
+        const text = $(el).children().text()
+        console.log(text)
+      })
+      // console.log(table)
 
-        const newImages = images.map((i, el) => {
-          const img = $(el);
-          if (img.attr("src").includes("photos/") === true) {
-            return img;
-          }
-        });
-        newImages.each((i, el) => {
-          const img = $(el).attr("src");
-          myData.push({
-            src: "http://rockymountainpublishing.net/RMP/" + img,
-            info: target.children().text(),
-          });
-          //   console.log(img);
-        });
-        // return true
-      };
-      getUrls().then(() => {
-        // console.log("INFO:");
-        console.log(myData);
-      });
+
+      // const getUrls = async () => {
+      //   // console.log("URLS:");
+      //   const images = $("img");
+      //   const target = $(".bigger");
+
+      //   const newImages = images.map((i, el) => {
+      //     const img = $(el);
+      //     if (img.attr("src").includes("photos/") === true) {
+      //       return img;
+      //     }
+      //   });
+      //   newImages.each((i, el) => {
+      //     const img = $(el).attr("src");
+      //     myData.push({
+      //       src: "http://rockymountainpublishing.net/RMP/" + img,
+      //       info: target.children().text(),
+      //     });
+      //   });
+      // };
+      // getUrls().then(() => {
+      //   console.log(myData);
+      // });
     }
   }
 );
