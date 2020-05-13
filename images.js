@@ -4,6 +4,10 @@ const request = require("request");
 const file = fs.readFileSync("./json/RMP-SCRAPES.json");
 const json = JSON.parse(file);
 
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 const download = (url, path, callback) => {
   return new Promise((resolve) => {
     request.get(
@@ -22,13 +26,26 @@ const download = (url, path, callback) => {
 };
 
 const downloadImages = async () => {
+  let seenTitles = [];
+
   for (const item of json) {
     const url = item.src;
     const imgTitle = item.title;
-    const path = `./images/${imgTitle}.jpg`;
-    const finalImg = await download(url, path, () => {
-      console.log(`✅ ${imgTitle} downloaded`);
-    });
+    if (seenTitles.includes(imgTitle)) {
+      // randomize end of file name
+      const path = `./images/${imgTitle}-${getRandomInt(100)}.jpg`;
+      const finalImg = await download(url, path, () => {
+        console.log(`✅ ${imgTitle} downloaded`);
+        seenTitles.push(imgTitle);
+      });
+    } else {
+      // do not randomize file name
+      const path = `./images/${imgTitle}.jpg`;
+      const finalImg = await download(url, path, () => {
+        console.log(`✅ ${imgTitle} downloaded`);
+        seenTitles.push(imgTitle);
+      });
+    }
   }
 };
 
