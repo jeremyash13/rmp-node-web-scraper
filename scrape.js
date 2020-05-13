@@ -109,7 +109,7 @@ getTotalPages(
   setTimeout(() => {
     // console.log(masterData);
     try{
-      fs.appendFileSync("C:/Users/Sales/Desktop/RMP-SCRAPES.json", JSON.stringify(masterData))
+      fs.appendFileSync("./json/RMP-SCRAPES.json", JSON.stringify(masterData))
       console.log("SCRAPE COMPLETE")
     } catch (err) {
       console.log(err)
