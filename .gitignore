@@ -1,6 +1,7 @@
 # Scraped Data
 images/
 json/
+.env
 
 # Logs
 logs
